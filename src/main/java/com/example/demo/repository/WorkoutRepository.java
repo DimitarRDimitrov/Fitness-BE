@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WorkoutRepository extends CrudRepository<Workout, String> {
+public interface WorkoutRepository extends CrudRepository<Workout, Integer> {
     List<Workout> findWorkoutByName(String name);
 }

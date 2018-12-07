@@ -1,14 +1,18 @@
 package com.example.demo.entity;
 
-import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity(name = "user")
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -30,13 +34,27 @@ public class User {
     @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @Column
+    @JsonIgnore
+    @ManyToMany(mappedBy = "applicants")
+    private Set<Workout> userWorkouts;
+
+    @Column(name = "is_admin")
+    private boolean isAdmin;
 
     public User() {
     }
 
     public User(Integer id, String userName, String firstName, String lastName, String email, String password, String phoneNumber) {
         this.id = id;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public User(String userName, String firstName, String lastName, String email, String password, String phoneNumber) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -99,5 +117,21 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Set<Workout> getUserWorkouts() {
+        return userWorkouts;
+    }
+
+    public void setUserWorkouts(Set<Workout> userWorkouts) {
+        this.userWorkouts = userWorkouts;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

@@ -824,7 +824,7 @@ public class NightAngel {&#xD;
   &lt;li&gt;Spring Boot lead Phil Webb &lt;a href="https://github.com/spring-io/spring-javaformat/"&gt;is cooking up a very interesting project to ensure code-formatting consistency for all Spring Boot projects&lt;/a&gt;. Interesting! (and still super early days yet..) Think of this as the Java and Spring Boot equivalent of &lt;code&gt;gofmt&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;Spring Data ninja Mark Paluch just &lt;a href="https://spring.io/blog/2018/04/13/spring-data-lovelace-m2-released"&gt;announced Spring Data Lovelace M2&lt;/a&gt;. This release ships with updates for all store modules that contain new features, improvements, and bug fixes. Notable changes include: MongoDB 3.6 support for Change Streams, $jsonSchema, and Client Sessions (in preparation for MongoDB Transactions); Apache Cassandra mapping improvements for Map and Tuple Types, along with newly introduced Lifecycle Callbacks; Upgrade to Apache Solr 7; Improved Connection Handling for reactive Redis and static Master/Slave use; SCAN support for Redis Cluster; List support for Spring Data JDBC; Composable repositories support via CDI; and an t increment to Spring Data Solr to a new major version number, 4.0 M2, as we upgraded from SolrJ 6.6.2 to 7.2.1.&lt;/li&gt;
   &lt;li&gt;There&amp;rsquo;s some interesting changes &lt;a href="https://github.com/spring-projects/spring-framework/commit/97ee94f4ca7e1d0c6f7e218e0ba8448940b7ba24"&gt;afoot in the programmatic bean definition Kotlin DSL!&lt;/a&gt; The new DSL supports injecting multiple bean definitions and accessing the Spring &lt;code&gt;Environment&lt;/code&gt;, among other things.&lt;/li&gt;
-  &lt;li&gt;Springg Security OAuth lead Joe Grandja just announced Security OAuth 2.3.2.RELEASE &lt;a href="https://spring.io/blog/2018/04/12/spring-security-oauth-2-3-2-released"&gt;fixing a minor runtime incompatability with Redis&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Springg Security OAuth lead Joe Grandja just announced Security OAuth 2.3.2.RELEASE &lt;a href="https://spring.io/blog/2018/04/12/spring-com.example.demo.security-oauth-2-3-2-released"&gt;fixing a minor runtime incompatability with Redis&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Our very own Jakub Pilimon has a &lt;a href="https://spring.io/blog/2018/04/11/event-storming-and-spring-with-a-splash-of-ddd"&gt;nice post on &amp;ldquo;event-storming with a splash of domain-driven design.&amp;rdquo;&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Spring Data ninja Mark Paluch shares details on new releases of Spring Data - Spring Data Ingalls SR11 and Kay SR - which include fixes for recently announced vulnerabilities. If you&amp;rsquo;re using Spring Boot 1.5.12 and 2.0.1 then they bring in the &lt;a href="https://spring.io/blog/2018/04/11/multiple-cve-reports-published-for-spring-data"&gt;appropriate Spring Data releases, as well&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Hi Spring fans! Last week, in the latest &lt;em&gt;Spring Tips&lt;/em&gt; installment, I look at &lt;a href="https://spring.io/blog/2018/04/11/spring-tips-the-cloud-foundry-java-client"&gt;the reactive Cloud Foundry Java client&lt;/a&gt;&lt;/li&gt;
@@ -1229,13 +1229,13 @@ Most importantly, let us know your feedback and report any issues.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="paragraph"&gt;
 &lt;p&gt;This release resolves a runtime incompatibility issue with &lt;code&gt;RedisTokenStore&lt;/code&gt; and &lt;a href="https://projects.spring.io/spring-data-redis/"&gt;Spring Data Redis 2.0.x&lt;/a&gt;.
-See &lt;a href="https://github.com/spring-projects/spring-security-oauth/pull/1319"&gt;#1319&lt;/a&gt; and &lt;a href="https://github.com/spring-projects/spring-security-oauth/issues/1335"&gt;#1335&lt;/a&gt;.
+See &lt;a href="https://github.com/spring-projects/spring-com.example.demo.security-oauth/pull/1319"&gt;#1319&lt;/a&gt; and &lt;a href="https://github.com/spring-projects/spring-com.example.demo.security-oauth/issues/1335"&gt;#1335&lt;/a&gt;.
 This release also includes a few minor enhancements and bug fixes.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="http://projects.spring.io/spring-security-oauth/"&gt;Project Page&lt;/a&gt; |
-&lt;a href="https://github.com/spring-projects/spring-security-oauth/"&gt;GitHub&lt;/a&gt; |
-&lt;a href="http://projects.spring.io/spring-security-oauth/docs/Home.html"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-security-oauth2"&gt;Help&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://projects.spring.io/spring-com.example.demo.security-oauth/"&gt;Project Page&lt;/a&gt; |
+&lt;a href="https://github.com/spring-projects/spring-com.example.demo.security-oauth/"&gt;GitHub&lt;/a&gt; |
+&lt;a href="http://projects.spring.io/spring-com.example.demo.security-oauth/docs/Home.html"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-com.example.demo.security-oauth2"&gt;Help&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;</content>
   </entry>
   <entry>
@@ -1667,8 +1667,8 @@ class StatementGenerator {&#xD;
     <updated>2018-04-11T15:22:00Z</updated>
     <content type="html">&lt;p&gt;Last week, we &lt;a href="https://spring.io/blog/2018/04/04/spring-data-ingalls-sr11-and-kay-sr6-released"&gt;released&lt;/a&gt; Spring Data Ingalls SR11 and Kay SR, which include fixes for the following vulnerabilities:&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href="https://pivotal.io/security/cve-2018-1273"&gt;https://pivotal.io/security/cve-2018-1273&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://pivotal.io/security/cve-2018-1274"&gt;https://pivotal.io/security/cve-2018-1274&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://pivotal.io/com.example.demo.security/cve-2018-1273"&gt;https://pivotal.io/com.example.demo.security/cve-2018-1273&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://pivotal.io/com.example.demo.security/cve-2018-1274"&gt;https://pivotal.io/com.example.demo.security/cve-2018-1274&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Spring Boot 1.5.11 (superseded by 1.5.12 due to &lt;a href="https://spring.io/blog/2018/04/09/cve-2018-1275-address-partial-fix-for-cve-2018-1270"&gt;CVE-2018-1275&lt;/a&gt;) and 2.0.1 already pull in the above Spring Data versions, including the fixes that were &lt;a href="https://spring.io/blog/2018/04/05/spring-boot-2-0-1-available-now"&gt;released last week&lt;/a&gt;, and are now also available for use.&lt;/p&gt;
 &lt;p&gt;Please review the information in the CVE reports and upgrade immediately.&lt;/p&gt;</content>
@@ -1710,7 +1710,7 @@ class StatementGenerator {&#xD;
   &lt;li&gt;Spring Framework ninja Rossen Stoyanchev has announced fixes for mutliple CVEs related to the Spring Framework. &lt;a href="https://spring.io/blog/2018/04/05/multiple-cve-reports-published-for-the-spring-framework"&gt;Upgrade now!&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Spring Cloud Stream legend Soby Chacko reminds us that &lt;a href="https://github.com/spring-cloud/spring-cloud-stream-samples"&gt;the samples have been updated in preparation for Spring Cloud Stream 2.0 release&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Spring Boot ninja St?phane Nicoll has just announced &lt;a href="https://spring.io/blog/2018/04/05/spring-boot-2-0-1-available-now"&gt;the first maintenance release of Spring Boot 2&lt;/a&gt; which includes over 160 fixes, improvements and dependency updates.&lt;/li&gt;
-  &lt;li&gt;Spring Security ninja Joe Grandja just &lt;a href="https://spring.io/blog/2018/04/05/spring-security-5-0-4-and-4-2-5-released"&gt;announced Spring Security 5.0.4 and 4.2.5&lt;/a&gt;. Both releases primarily deliver bug fixes and dependency version updates along with some minor improvements.&lt;/li&gt;
+  &lt;li&gt;Spring Security ninja Joe Grandja just &lt;a href="https://spring.io/blog/2018/04/05/spring-com.example.demo.security-5-0-4-and-4-2-5-released"&gt;announced Spring Security 5.0.4 and 4.2.5&lt;/a&gt;. Both releases primarily deliver bug fixes and dependency version updates along with some minor improvements.&lt;/li&gt;
   &lt;li&gt;Spring Boot &lt;a href="https://spring.io/blog/2018/04/05/spring-boot-1-5-11-available-now"&gt;ninja St?phane Nicoll just announced Spring Boot 1.5.11&lt;/a&gt; which includes over 70 fixes, improvements and dependency updates.&lt;/li&gt;
   &lt;li&gt;Spring Vault lead Mark Paluch just &lt;a href="https://spring.io/blog/2018/04/05/spring-vault-1-1-2-and-2-0-1-released"&gt;announced that Spring Vault 1.1.2 and 2.0.1 have been released&lt;/a&gt;. Bot releases primarily deliver bug fixes and dependency version updates along with some minor improvements.&lt;/li&gt;
   &lt;li&gt;Spring Data ninja Mark Paluch has &lt;a href="https://spring.io/blog/2018/04/04/spring-data-ingalls-sr11-and-kay-sr6-released"&gt;just announced Ingalls SR11 and Kay SR6 service releases&lt;/a&gt;. The Ingalls service release ships on top of the just-released Spring Framework 4.3.15 and in preparation of the upcoming Spring Boot 1.5.11 release. The Kay service release picks up Spring Framework 5.0.5 and will be picked up by Spring Boot 2.0.1 for your convenience.&lt;/li&gt;
@@ -1724,12 +1724,12 @@ class StatementGenerator {&#xD;
   &lt;li&gt;Neo4j evangelist extraordinairre Jennifer Reif has a great post on &lt;a href="https://t.co/10c8pdsfui?amp=1"&gt;using Spring Data Neo4j and Spring Boot&lt;/a&gt; - do NOT miss this post!&lt;/li&gt;
   &lt;li&gt;The legendaryy Aboullaite Mohammed has put together a very cool &lt;a href="https://aboullaite.me/spring-boot-metrics-monitoring-using-tick-stack/"&gt;post on using Spring Boot and the Micrometer project with the TICK stack: Telegrap/InfluxDB/Chronograph/Kapacitor&lt;/a&gt;.&lt;/li&gt;
   &lt;li&gt;I loved this post. It explains how one developer, Andrei Chernyshev, &lt;a href="https://itnext.io/java-10-migration-story-cdc65c05bb5a"&gt;moved a Kotlin-language based Spring Boot application from JVM 8 to JVM 10&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;Spring Security lead Rob Winch has &lt;a href="https://www.infoq.com/presentations/spring-security-3-reactive"&gt;a great talk up on InfoQ on the reactive bits in Spring Security 5&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Security lead Rob Winch has &lt;a href="https://www.infoq.com/presentations/spring-com.example.demo.security-3-reactive"&gt;a great talk up on InfoQ on the reactive bits in Spring Security 5&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Want to speak at &lt;a href="https://springoneplatform.io/cfp"&gt;SpringOne Platform 2018&lt;/a&gt;? Submit your talk tout-de-suite! CFP&amp;rsquo;s closing soon!&lt;/li&gt;
   &lt;li&gt;&lt;a href="https://projectriff.io/blog/announcing-riff-0-0-6/"&gt;Project Riff, the function-as-a-service platform from Pivotal, have just announced Riff 0.0.6&lt;/a&gt;. Get the bits ASAP!&lt;/li&gt;
   &lt;li&gt;Micrometer lead and master-of-metrics Jon Schneider has a great example &lt;a href="https://t.co/mcJkLLfhEB?amp=1"&gt;of embedding the Netflix Atlas project in a Spring Boot application&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Flowable 6.3.0 release has been &lt;a href="https://blog.flowable.org/2018/04/04/flowable-6-3-0-release/"&gt;updated to use Spring Boot 2.0&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Java Champion and Java legend Simon Maple has been &lt;a href="https://www.cloudfoundry.org/blog/security-corner-snyk-top-six-vulnerabilities-maven-npm/"&gt;blogging about security for Java applications on Cloud Foundry. Check this out!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Java Champion and Java legend Simon Maple has been &lt;a href="https://www.cloudfoundry.org/blog/com.example.demo.security-corner-snyk-top-six-vulnerabilities-maven-npm/"&gt;blogging about com.example.demo.security for Java applications on Cloud Foundry. Check this out!&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
   </entry>
   <entry>

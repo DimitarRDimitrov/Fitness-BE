@@ -1,17 +1,17 @@
 package com.example.demo.entity;
 
-import sun.plugin.dom.exception.InvalidStateException;
-
 import javax.persistence.*;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
 @Entity(name = "workout")
 public class Workout {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "workout_id")
     private Integer id;
     @Column(name = "name")
@@ -29,6 +29,12 @@ public class Workout {
     private Integer capacity;
     @Column
     private Integer spaceRemaining;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_workouts", joinColumns = @JoinColumn(name = "workout_id"), inverseJoinColumns = @JoinColumn(name = "id"))
+    private Set<User> applicants;
+
+//    @Version
+//    private Long version;
 
     public Workout() {
     }
@@ -42,6 +48,14 @@ public class Workout {
         this.time = new Time(new SimpleDateFormat("HH:mm").parse(time).getTime());
         this.capacity = capacity;
         this.spaceRemaining = capacity;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -93,10 +107,35 @@ public class Workout {
         this.capacity = capacity;
     }
 
-    public void reserveOneSpace() {
-        if (this.spaceRemaining - 1 < 0) {
-            throw new InvalidStateException("No free space remaining");
-        }
-        this.spaceRemaining--;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
+    public Integer getSpaceRemaining() {
+        return spaceRemaining;
+    }
+
+    public void setSpaceRemaining(Integer spaceRemaining) {
+        this.spaceRemaining = spaceRemaining;
+    }
+
+    public Set<User> getApplicants() {
+        return applicants;
+    }
+
+    public void setApplicants(Set<User> applicants) {
+        this.applicants = applicants;
+    }
+
+//    public Long getVersion() {
+//        return version;
+//    }
+//
+//    public void setVersion(Long version) {
+//        this.version = version;
+//    }
 }
