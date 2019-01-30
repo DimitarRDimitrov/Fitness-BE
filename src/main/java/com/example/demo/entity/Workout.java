@@ -19,7 +19,7 @@ public class Workout {
     @Column(name = "duration")
     private Integer duration;
     @ManyToOne()
-    @JoinColumn(name = "trainerId", referencedColumnName = "id")
+    @JoinColumn(name = "trainer_username", referencedColumnName = "name")
     private User trainer;
     @Column(name = "date")
     private LocalDate date;
@@ -29,17 +29,23 @@ public class Workout {
     private Integer capacity;
     @Column
     private Integer spaceRemaining;
+    @Column
+    private boolean isDeleted;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_workouts", joinColumns = @JoinColumn(name = "workout_id"), inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<User> applicants;
 
-//    @Version
-//    private Long version;
+    @ManyToOne()
+    @JoinColumn(name = "workout_type_id")
+    private WorkoutType workoutType;
+
+    @Version
+    private Long version;
 
     public Workout() {
     }
 
-    public Workout(String name, Integer duration, User trainer, String date, String time, Integer capacity) throws ParseException {
+    public Workout(String name, Integer duration, User trainer, String date, String time, Integer capacity, WorkoutType workoutType) throws ParseException {
         this.name = name;
         this.duration = duration;
         this.trainer = trainer;
@@ -48,6 +54,18 @@ public class Workout {
         this.time = new Time(new SimpleDateFormat("HH:mm").parse(time).getTime());
         this.capacity = capacity;
         this.spaceRemaining = capacity;
+        this.workoutType = workoutType;
+    }
+
+    public Workout(String name, Integer duration, User trainer, LocalDate date, String time, Integer capacity, WorkoutType workoutType) throws ParseException {
+        this.name = name;
+        this.duration = duration;
+        this.trainer = trainer;
+        this.date = date;
+        this.time = new Time(new SimpleDateFormat("HH:mm").parse(time).getTime());
+        this.capacity = capacity;
+        this.spaceRemaining = capacity;
+        this.workoutType = workoutType;
     }
 
     public Integer getId() {
@@ -115,6 +133,14 @@ public class Workout {
         this.time = time;
     }
 
+    public boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     public Integer getSpaceRemaining() {
         return spaceRemaining;
     }
@@ -131,11 +157,21 @@ public class Workout {
         this.applicants = applicants;
     }
 
-//    public Long getVersion() {
-//        return version;
-//    }
-//
-//    public void setVersion(Long version) {
-//        this.version = version;
-//    }
+    public WorkoutType getWorkoutType() {
+        return workoutType;
+    }
+
+    public void setWorkoutType(WorkoutType workoutType) {
+        this.workoutType = workoutType;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+
 }

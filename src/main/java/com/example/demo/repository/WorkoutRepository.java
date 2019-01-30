@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface WorkoutRepository extends CrudRepository<Workout, Integer> {
-    List<Workout> findWorkoutByName(String name);
+    List<Workout> findAllByIsDeleted(boolean isDeleted);
 }

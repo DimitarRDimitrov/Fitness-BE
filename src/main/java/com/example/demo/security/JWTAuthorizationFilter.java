@@ -48,4 +48,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         User user = customUserDetailsService.loadSystemUserByUsername(userName);
         return userName != null ? new UsernamePasswordAuthenticationToken(userName, user.getPassword()) : null;
     }
+
+    
 }

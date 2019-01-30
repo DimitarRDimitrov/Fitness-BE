@@ -2,16 +2,17 @@ package com.example.demo.api;
 
 import com.example.demo.controller.LoginController;
 import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 import java.security.Principal;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Collection;
-import java.util.Optional;
 
 @RestController
 public class LoginApi {
@@ -37,6 +38,18 @@ public class LoginApi {
         return loginController.getUserByUserName(username);
     }
 
+    @CrossOrigin(origins = "*")
+    @PostMapping("/api/user/seeNotification")
+    public boolean seeNotification(Principal principal) {
+        String username = principal.getName();
+        return loginController.seeNotification(username);
+    }
+
+    @GetMapping(path = "/stream-flux", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> streamFlux() {
+        return Flux.interval(Duration.ofSeconds(1))
+                .map(sequence -> "Flux - " + LocalTime.now().toString());
+    }
     public static class UserLoginDetails implements UserDetails {
         private String username;
         private String password;

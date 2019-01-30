@@ -25,4 +25,11 @@ public class LoginController {
         userRepository.save(user);
         return true;
     }
+
+    public boolean seeNotification(String username) {
+        User user = getUserByUserName(username);
+        user.setHasNotification(false);
+        userRepository.save(user);
+        return true;
+    }
 }

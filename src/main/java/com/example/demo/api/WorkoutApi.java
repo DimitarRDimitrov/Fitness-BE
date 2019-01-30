@@ -3,16 +3,15 @@ package com.example.demo.api;
 import com.example.demo.controller.WorkoutController;
 import com.example.demo.entity.User;
 import com.example.demo.entity.Workout;
+import com.example.demo.entity.WorkoutType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class WorkoutApi {
@@ -28,8 +27,14 @@ public class WorkoutApi {
 
     @CrossOrigin(origins = "*")
     @RequestMapping("/workouts/all")
-    public List<Workout> getAllWorkouts() {
-        return workoutController.getAllWorkouts();
+    public List<Workout> getAllWorkouts(@PathParam("startDateNow") Boolean startDateNow) {
+        return workoutController.getAllWorkouts(startDateNow);
+    }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping("/workouts/user")
+    public List<Workout> getWorkoutsByUser(Principal principal) {
+        return workoutController.getUpcomingUserWorkouts(principal);
     }
 
     @CrossOrigin(origins = "*")
@@ -47,8 +52,20 @@ public class WorkoutApi {
     @CrossOrigin(origins = "*")
     @PostMapping("workouts/create")
     public boolean createWorkout(@RequestBody WorkoutDetails workoutDetails) throws ParseException {
-        return workoutController.createWorkout(workoutDetails.getName(), workoutDetails.getDuration(), workoutDetails.getTrainer(), workoutDetails.getDate(),
-                workoutDetails.getTime(), workoutDetails.getCapacity());
+        return workoutController.createWorkout(workoutDetails.getName(), workoutDetails.getDuration(), workoutDetails.getTrainerUsername(), workoutDetails.getDate(),
+                workoutDetails.getTime(), workoutDetails.getCapacity(), workoutDetails.dateTo, workoutDetails.workoutType);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("workouts/delete")
+    public boolean deleteWorkout(Principal principal, @PathParam("workoutId") Integer workoutId) {
+        return workoutController.deleteWorkout(principal, workoutId);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/workouts/find")
+    public Set<User> getWorkoutParticipants(@PathParam("workoutId") Integer workoutId) {
+        return workoutController.getWorkoutParticipants(workoutId);
     }
 
     public static class WorkoutDetails {
@@ -57,19 +74,23 @@ public class WorkoutApi {
         private Integer capacity;
         private String date;
         private String time;
-        private Integer trainer;
+        private String trainerUsername;
+        private String dateTo;
+        private String workoutType;
 
         public WorkoutDetails() {
 
         }
 
-        public WorkoutDetails(String name, Integer duration, Integer capacity, String date, String time, Integer trainer) {
+        public WorkoutDetails(String name, Integer duration, Integer capacity, String date, String time, String trainerUsername, String dateTo, String workoutType) {
             this.name = name;
             this.duration = duration;
             this.capacity = capacity;
             this.date = date;
             this.time = time;
-            this.trainer = trainer;
+            this.trainerUsername = trainerUsername;
+            this.dateTo = dateTo;
+            this.workoutType = workoutType;
         }
 
         public String getName() {
@@ -112,12 +133,28 @@ public class WorkoutApi {
             this.time = time;
         }
 
-        public Integer getTrainer() {
-            return trainer;
+        public String getTrainerUsername() {
+            return trainerUsername;
         }
 
-        public void setTrainer(Integer trainer) {
-            this.trainer = trainer;
+        public void setTrainerUsername(String trainerUsername) {
+            this.trainerUsername = trainerUsername;
+        }
+
+        public String getDateTo() {
+            return dateTo;
+        }
+
+        public void setDateTo(String dateTo) {
+            this.dateTo = dateTo;
+        }
+
+        public String getWorkoutType() {
+            return workoutType;
+        }
+
+        public void setWorkoutType(String workoutType) {
+            this.workoutType = workoutType;
         }
     }
 }

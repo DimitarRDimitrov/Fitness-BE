@@ -47,13 +47,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        ZonedDateTime expirationTimeUTC = ZonedDateTime.now(ZoneOffset.UTC).plus(EXPIRATION_TIME, ChronoUnit.MILLIS);
-        String token = Jwts.builder().setSubject(((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername())
-                .setExpiration(Date.from(expirationTimeUTC.toInstant()))
-                .signWith(SignatureAlgorithm.HS256, SECRET)
-                .compact();
-        response.getWriter().write(token);
-        response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+            ZonedDateTime expirationTimeUTC = ZonedDateTime.now(ZoneOffset.UTC).plus(EXPIRATION_TIME, ChronoUnit.MILLIS);
+            String token = Jwts.builder().setSubject(((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername())
+                    .setExpiration(Date.from(expirationTimeUTC.toInstant()))
+                    .signWith(SignatureAlgorithm.HS256, SECRET)
+                    .compact();
+            response.getWriter().write(token);
+            response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     }
 
 
