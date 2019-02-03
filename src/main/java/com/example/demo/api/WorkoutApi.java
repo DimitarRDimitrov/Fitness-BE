@@ -26,6 +26,12 @@ public class WorkoutApi {
     }
 
     @CrossOrigin(origins = "*")
+    @RequestMapping("/workouts/find/{roomName}")
+    public List<Workout> getRoomWorkouts(@PathVariable("roomName") String room, @PathParam("date") String date) {
+        return workoutController.getRoomWorkouts(room, date);
+    }
+
+    @CrossOrigin(origins = "*")
     @RequestMapping("/workouts/all")
     public List<Workout> getAllWorkouts(@PathParam("startDateNow") Boolean startDateNow) {
         return workoutController.getAllWorkouts(startDateNow);
@@ -53,7 +59,7 @@ public class WorkoutApi {
     @PostMapping("workouts/create")
     public boolean createWorkout(@RequestBody WorkoutDetails workoutDetails) throws ParseException {
         return workoutController.createWorkout(workoutDetails.getName(), workoutDetails.getDuration(), workoutDetails.getTrainerUsername(), workoutDetails.getDate(),
-                workoutDetails.getTime(), workoutDetails.getCapacity(), workoutDetails.dateTo, workoutDetails.workoutType);
+                workoutDetails.getTime(), workoutDetails.getCapacity(), workoutDetails.dateTo, workoutDetails.workoutType, workoutDetails.roomName);
     }
 
     @CrossOrigin(origins = "*")
@@ -77,12 +83,13 @@ public class WorkoutApi {
         private String trainerUsername;
         private String dateTo;
         private String workoutType;
+        private String roomName;
 
         public WorkoutDetails() {
 
         }
 
-        public WorkoutDetails(String name, Integer duration, Integer capacity, String date, String time, String trainerUsername, String dateTo, String workoutType) {
+        public WorkoutDetails(String name, Integer duration, Integer capacity, String date, String time, String trainerUsername, String dateTo, String workoutType, String roomName) {
             this.name = name;
             this.duration = duration;
             this.capacity = capacity;
@@ -91,6 +98,7 @@ public class WorkoutApi {
             this.trainerUsername = trainerUsername;
             this.dateTo = dateTo;
             this.workoutType = workoutType;
+            this.roomName = roomName;
         }
 
         public String getName() {
@@ -156,5 +164,9 @@ public class WorkoutApi {
         public void setWorkoutType(String workoutType) {
             this.workoutType = workoutType;
         }
+
+        public String getRoomName() { return roomName; }
+
+        public void setRoomName(String roomName) { this.roomName = roomName; }
     }
 }

@@ -1,17 +1,21 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Room;
 import com.example.demo.entity.User;
 import com.example.demo.entity.Workout;
 import com.example.demo.entity.WorkoutType;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.WorkoutRepository;
 import com.example.demo.repository.WorkoutTypeRepository;
+import com.example.demo.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.sql.Time;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,12 +31,27 @@ public class WorkoutController {
     @Autowired
     WorkoutTypeRepository workoutTypeRepository;
 
+    @Autowired
+    RoomRepository roomRepository;
+
     public Workout getWorkoutById(Integer workoutId) {
         Optional<Workout> workout = workoutRepository.findById(workoutId);
         if (workout.isPresent()) {
             return workout.get();
         }
         return null;
+    }
+
+    public List<Workout> getRoomWorkouts(String roomName, String date) {
+        List<Workout> result = new ArrayList<>();
+
+        Room room = roomRepository.findRoomByName(roomName);
+        List<Integer> dateValues = Arrays.stream(date.split("-")).map(Integer::valueOf).collect(Collectors.toList());
+        LocalDate workoutDate = LocalDate.of(dateValues.get(0), dateValues.get(1), dateValues.get(2));
+        workoutRepository.findAllByDate(workoutDate).forEach(result::add);
+        result.removeIf(workout -> !workout.getRoom().getId().equals(room.getId()));
+
+        return result;
     }
 
     public List<Workout> getAllWorkouts(Boolean startDateNow) {
@@ -53,6 +72,7 @@ public class WorkoutController {
         }
         LocalDate currentDate = LocalDate.now();
         result.removeIf(workout -> !workout.getDate().isAfter(currentDate.minusDays(1)));
+        result.removeIf(workout -> !workout.getDate().isBefore(currentDate.plusDays(7)));
     }
 
     public boolean applyUserForWorkout(Principal principal, Integer workoutId) {
@@ -97,15 +117,20 @@ public class WorkoutController {
         return true;
     }
 
-    public boolean createWorkout(String name, Integer duration, String trainerUsername, String date, String time, Integer capacity, String dateTo, String workoutType) throws ParseException {
+    public boolean createWorkout(String name, Integer duration, String trainerUsername, String date, String time, Integer capacity, String dateTo, String workoutType, String roomName) throws ParseException {
         User trainer = userRepository.getUserByUserName(trainerUsername);
         if (trainer == null) {
             return false;
         }
         WorkoutType woType = workoutTypeRepository.findWorkoutTypeByName(workoutType);
-        if (woType == null) {
+        Room room = roomRepository.findRoomByName(roomName);
+        if (woType == null || room == null) {
             return false;
         }
+        if (!checkIfTimeIsFree(date, time, duration, room.getId())){
+            return false;
+        }
+
         if (null != dateTo && !dateTo.isEmpty()) {
             String[] dateValues = date.split("-");
             LocalDate dateFrom = LocalDate.of(Integer.valueOf(dateValues[0]), Integer.valueOf(dateValues[1]), Integer.valueOf(dateValues[2]));
@@ -117,20 +142,45 @@ public class WorkoutController {
 
             int days = dateFrom.until(dateUntil).getDays();
             for (int i = 0; i <= days; i++) {
-                workoutRepository.save(new Workout(name, duration, trainer, dateFrom.plusDays(i), time, capacity, woType));
+                workoutRepository.save(new Workout(name, duration, trainer, dateFrom.plusDays(i), time, capacity, woType, room));
             }
         } else {
-            Workout workout = new Workout(name, duration, trainer, date, time, capacity, woType);
+            Workout workout = new Workout(name, duration, trainer, date, time, capacity, woType, room);
             workoutRepository.save(workout);
         }
+        return true;
+    }
+
+    private boolean checkIfTimeIsFree(String date, String time, Integer duration, Integer roomId){
+
+        List<Workout> result = new ArrayList<>();
+        List<Integer> dateValues = Arrays.stream(date.split("-")).map(Integer::valueOf).collect(Collectors.toList());
+        LocalDate workoutDate = LocalDate.of(dateValues.get(0), dateValues.get(1), dateValues.get(2));
+        workoutRepository.findAllByDate(workoutDate).forEach(result::add);
+        result.removeIf(workout -> !workout.getRoom().getId().equals(roomId));
+
+        String[] timeFromQuery = time.split(":");
+        int workoutMinutesFromQuery = Integer.parseInt(timeFromQuery[0]) * 60 + Integer.parseInt(timeFromQuery[1]);
+
+        for(Workout workout : result){
+            LocalTime workoutTime = workout.getTime().toLocalTime();
+            int workoutMinutes = workoutTime.getHour() * 60 + workoutTime.getMinute();
+
+            if ((workoutMinutesFromQuery > workoutMinutes && workoutMinutesFromQuery < (workoutMinutes + workout.getDuration()))
+                    || ((workoutMinutesFromQuery + duration) > workoutMinutes && (workoutMinutesFromQuery + duration) < (workoutMinutes + workout.getDuration()))) {
+                return false;
+            }
+        }
+
         return true;
     }
 
     public List<Workout> getUpcomingUserWorkouts(Principal principal) {
         User user = userRepository.getUserByUserName(principal.getName());
         List<Workout> userWorkouts = user.getUserWorkouts().stream()
-                .sorted((o1, o2) -> (int) (o2.getDate().toEpochDay() - o1.getDate().toEpochDay()))
+                .sorted((o1, o2) -> (int) (o1.getDate().toEpochDay() - o2.getDate().toEpochDay()))
                 .collect(Collectors.toList());
+
         filterByStartDateNow(true, userWorkouts);
         return userWorkouts;
     }

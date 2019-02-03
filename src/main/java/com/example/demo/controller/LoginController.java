@@ -22,6 +22,9 @@ public class LoginController {
 
     public boolean registerUser(String username, String password, String email, String fName, String lName, String phone) {
         User user = new User(username, fName, lName, email, password, phone);
+        if (userRepository.getUserByUserName(username) != null) {
+            return false;
+        }
         userRepository.save(user);
         return true;
     }

@@ -39,13 +39,17 @@ public class Workout {
     @JoinColumn(name = "workout_type_id")
     private WorkoutType workoutType;
 
+    @ManyToOne()
+    @JoinColumn(name = "room_id")
+    private Room room;
+
     @Version
     private Long version;
 
     public Workout() {
     }
 
-    public Workout(String name, Integer duration, User trainer, String date, String time, Integer capacity, WorkoutType workoutType) throws ParseException {
+    public Workout(String name, Integer duration, User trainer, String date, String time, Integer capacity, WorkoutType workoutType, Room room) throws ParseException {
         this.name = name;
         this.duration = duration;
         this.trainer = trainer;
@@ -55,9 +59,10 @@ public class Workout {
         this.capacity = capacity;
         this.spaceRemaining = capacity;
         this.workoutType = workoutType;
+        this.room = room;
     }
 
-    public Workout(String name, Integer duration, User trainer, LocalDate date, String time, Integer capacity, WorkoutType workoutType) throws ParseException {
+    public Workout(String name, Integer duration, User trainer, LocalDate date, String time, Integer capacity, WorkoutType workoutType, Room room) throws ParseException {
         this.name = name;
         this.duration = duration;
         this.trainer = trainer;
@@ -66,6 +71,7 @@ public class Workout {
         this.capacity = capacity;
         this.spaceRemaining = capacity;
         this.workoutType = workoutType;
+        this.room = room;
     }
 
     public Integer getId() {
@@ -109,7 +115,7 @@ public class Workout {
         this.date = LocalDate.of(Integer.valueOf(dateValues[0]), Integer.valueOf(dateValues[1]), Integer.valueOf(dateValues[2]));
     }
 
-    public Date getTime() {
+    public Time getTime() {
         return this.time;
     }
 
@@ -165,6 +171,10 @@ public class Workout {
         this.workoutType = workoutType;
     }
 
+    public Room getRoom() { return room; }
+
+    public void setRoom(Room room) {  this.room = room; }
+
     public Long getVersion() {
         return version;
     }
@@ -172,6 +182,4 @@ public class Workout {
     public void setVersion(Long version) {
         this.version = version;
     }
-
-
 }
